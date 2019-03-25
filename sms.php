@@ -1,6 +1,5 @@
 <?php
     require 'vendor/autoload.php';
-	require 'logger.php';
     require 'database.php';
     use AfricasTalking\SDK\AfricasTalking;
 
@@ -82,7 +81,12 @@
         }
     }
 
+    // Function to get message info
+    function getStatus($msgIsd) {
+        $response = $db->get($msgIsd);
+        return $response;
+    }
 
     // Testing
-    $response = callSmsApi ("254713194216", "sms messsage", NULL);
+    // $response = callSmsApi ("254713194216", "sms messsage", NULL);
 ?>

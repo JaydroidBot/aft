@@ -1,7 +1,7 @@
 <?php
 
 	// Imports
-	require 'logger.php';
+	require 'database.php';
 
 	// instantiate
 	$log = new Logger("callback_logs.txt");
@@ -26,8 +26,8 @@
 		'Success' => 'The message has successfully been delivered to the receiver’s handset. This is a final status.',
 		'Failed' => 'The message could not be delivered to the receiver’s handset. This is a final status.'
 	);
-
-	// If status is defined, bootstrap reponse JSON
+	
+	// Bootstrap reponse JSON
 	$payload = Array(
 		'sessionId' => $sessionId,
 		'phoneNumber' => $phoneNumber,
@@ -38,15 +38,15 @@
 		'retryCount' => $retryCount
 	);
 
-	$log->insert(json_encode($payload));
+	// $log->insert(json_encode($payload));
 
 	if ($sessionId !== 'Null') {
 		// Write to db
 		$db->update($sessionId, $payload);
 		$db->close();
+	} else {
+		$log->insert('Error: Something went wrong with the response');		
 	}
-	else {
-		// Logs raw response incase you need to debug
-		$log->insert(json_encode($_POST));
-	}
+
+	$log->insert(json_encode($_POST));
 ?>
