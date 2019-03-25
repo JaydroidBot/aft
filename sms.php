@@ -1,6 +1,7 @@
 <?php
     require 'vendor/autoload.php';
 	require 'logger.php';
+    require 'database.php';
     use AfricasTalking\SDK\AfricasTalking;
 
 
@@ -13,12 +14,13 @@
     function callSmsApi($phone, $message, $orderId) {
 
         // Set your app credentials
-        $username = "name";
-        $apiKey = "key";
+        $username = "busaradev"; 
+        $apiKey = "fdd61511f784ed7c0960b830544ffcddc9fdece59ddfdf96e664a9cdf157737e";
 
         // Initialize classes
         $AT = new AfricasTalking($username, $apiKey);
         $log = new Logger("sent_sms_logs.txt");
+        $db = new smsDB();
 
         // Get the SMS service
         $sms = $AT->sms();
@@ -54,7 +56,8 @@
                 'enqueue' => false
             ]);
 
-            $recipient = $result['data']->SMSMessageData->Recipients[0];      
+            $recipient = $result['data']->SMSMessageData->Recipients[0];
+
 
             //AT result
             $at_result = array(
@@ -62,23 +65,24 @@
 	            "number" => $recipient->number,
 	            "status" => $recipient->status,
 	            "cost" => $recipient->cost,
-	            "messageId" => $recipient->messageId,
-	            "responseDescription" => $resultCodeMap[$recipient->statusCode]
+	            "sessionId" => $recipient->messageId,
+	            "statusCodeDescription" => $resultCodeMap[$recipient->statusCode]
             );
+
+            // Write to database
+            $db->insert('sms', $at_result);
+            $db->close();
 
         } catch (Exception $e) {
             $at_result = array(
             	"error" => $e->getMessage()
             ); 
+            // Logs incase you need to debug AFT Response
+            $log->insert(json_encode($at_result));
         }
-
-		// Logs incase you need to debug AFT Response
-		$log->insert(json_encode($at_result));
-
-        return json_encode($at_result);
     }
 
 
     // Testing
-    // $response = callSmsApi ("254713194216", "Testing SMS", NULL);
+    $response = callSmsApi ("254713194216", "sms messsage", NULL);
 ?>

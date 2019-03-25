@@ -3,8 +3,9 @@
 	// Imports
 	require 'logger.php';
 
-	// instantiate callback logs
+	// instantiate
 	$log = new Logger("callback_logs.txt");
+	$db = new smsDB();
 
 	// Collect all reponse variables defining a default value
 	// Source [https://build.at-labs.io/docs/sms%2Fnotifications]	
@@ -12,7 +13,8 @@
 	$phoneNumber = isset($_POST["phoneNumber"]) ? $_POST["phoneNumber"] : 'Null';
 	$status = isset($_POST["status"]) ? $_POST["status"] : 'Null';
 	$failureReason = isset($_POST["failureReason"]) ? $_POST["failureReason"] : 'Null';
-	$retryCount = isset($_POST["retryCount"]) ? $_POST["retryCount"] : 'Null';	
+	$retryCount = isset($_POST["retryCount"]) ? $_POST["retryCount"] : 'Null';
+	$networkCode = isset($_POST["networkCode"]) ? $_POST["networkCode"] : 'Null';
 	$payload = NULL;
 
 	// Status description for users
@@ -26,22 +28,23 @@
 	);
 
 	// If status is defined, bootstrap reponse JSON
-	if ($status !== 'Null') {
-		$payload = Array(
-			'sessionId' => $sessionId,
-			'phoneNumber' => $phoneNumber,
-			'status' => $status,
-			'failureReason' => $failureReason,
-			'description' => $statusDescription[$status],
-			'retryCount' => $retryCount
-		);
+	$payload = Array(
+		'sessionId' => $sessionId,
+		'phoneNumber' => $phoneNumber,
+		'status' => $status,
+		'failureReason' => $failureReason,
+		'description' => $statusDescription[$status],
+		'networkCode' => $networkCode, 
+		'retryCount' => $retryCount
+	);
+
+	if ($sessionId !== 'Null') {
+		// Write to db
+		$db->update($sessionId, $payload);
+		$db->close();
 	}
-
-	// JSON encode the response
-	// Logic to display to the user can be injected here
-	$response = json_encode($payload);
-
-	// Logs incase you need to debug AFT Response
-	$log->insert($response);
-
+	else {
+		// Logs raw response incase you need to debug
+		$log->insert(json_encode($_POST));
+	}
 ?>
