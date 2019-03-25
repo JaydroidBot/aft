@@ -38,6 +38,8 @@
 		'retryCount' => $retryCount
 	);
 
+	$log->insert(json_encode($payload));
+
 	if ($sessionId !== 'Null') {
 		// Write to db
 		$db->update($sessionId, $payload);
