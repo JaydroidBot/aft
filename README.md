@@ -34,6 +34,8 @@ aft
 - Simply instantiate `$log = new Logger("sent_sms_logs.txt");`
 - Insert desired log `$log->insert(json_encode('This is a log'));`
 
+## Database
+- The logger module uses SQLite to write SMS responses from AFT
 
 ## Setting Up
 

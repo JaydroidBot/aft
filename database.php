@@ -51,6 +51,7 @@
         $query->execute();
       }
 
+      // Update SMS table from callback
    		public function update($id, $data) {
         $status = $data['status'];
         $failureReason = $data['failureReason'];
