@@ -13,8 +13,8 @@
     function callSmsApi($phone, $message, $orderId) {
 
         // Set your app credentials
-        $username = "busaradev"; 
-        $apiKey = "fdd61511f784ed7c0960b830544ffcddc9fdece59ddfdf96e664a9cdf157737e";
+        $username = "user"; 
+        $apiKey = "key";
 
         // Initialize classes
         $AT = new AfricasTalking($username, $apiKey);
