@@ -1,6 +1,6 @@
 <?php
-    require 'vendor/autoload.php';
-    require 'database.php';
+    require './vendor/autoload.php';
+    require './database.php';
     use AfricasTalking\SDK\AfricasTalking;
 
 
@@ -18,7 +18,7 @@
 
         // Initialize classes
         $AT = new AfricasTalking($username, $apiKey);
-        $log = new Logger("sent_sms_logs.txt");
+        $log = new Logger("/tmp/sent_sms_logs.txt");
         $db = new smsDB();
 
         // Get the SMS service
@@ -88,5 +88,5 @@
     }
 
     // Testing
-    // $response = callSmsApi ("254713194216", "sms messsage", NULL);
+     $response = callSmsApi ("254713194216", "sms messsage", NULL);
 ?>

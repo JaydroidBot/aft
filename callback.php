@@ -4,12 +4,12 @@
 	require 'database.php';
 
 	// instantiate
-	$log = new Logger("callback_logs.txt");
+	$log = new Logger("/tmp/callback_logs.txt");
 	$db = new smsDB();
 
 	// Collect all reponse variables defining a default value
 	// Source [https://build.at-labs.io/docs/sms%2Fnotifications]	
-	$sessionId = isset($_POST["sessionId"]) ? $_POST["sessionId"] : 'Null';
+	$sessionId = isset($_POST["id"]) ? $_POST["id"] : 'Null';
 	$phoneNumber = isset($_POST["phoneNumber"]) ? $_POST["phoneNumber"] : 'Null';
 	$status = isset($_POST["status"]) ? $_POST["status"] : 'Null';
 	$failureReason = isset($_POST["failureReason"]) ? $_POST["failureReason"] : 'Null';
@@ -38,8 +38,6 @@
 		'retryCount' => $retryCount
 	);
 
-	// $log->insert(json_encode($payload));
-
 	if ($sessionId !== 'Null') {
 		// Write to db
 		$db->update($sessionId, $payload);
@@ -47,6 +45,6 @@
 	} else {
 		$log->insert('Error: Something went wrong with the response');		
 	}
-
+        // Log raw response for debug
 	$log->insert(json_encode($_POST));
 ?>

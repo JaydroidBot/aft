@@ -10,8 +10,8 @@
 
       // Create DB instance
    		public function __construct() {
-   			$this->db = new SQLite3('gobeba_sms.sqlite', SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE);
-        $this->log = new Logger("database_logs.txt");
+   			$this->db = new SQLite3('/tmp/gobeba_sms.sqlite', SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE);
+        $this->log = new Logger("/tmp/database_logs.txt");
         $this->createTables();
    		}
 
