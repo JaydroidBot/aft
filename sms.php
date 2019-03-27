@@ -18,7 +18,7 @@
 
         // Initialize classes
         $AT = new AfricasTalking($username, $apiKey);
-        $log = new Logger("/tmp/sent_sms_logs.txt");
+        $log = new Logger("./logs/sent_sms_logs.txt");
         $db = new smsDB();
 
         // Get the SMS service

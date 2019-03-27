@@ -4,7 +4,7 @@
 	require 'database.php';
 
 	// instantiate
-	$log = new Logger("/tmp/callback_logs.txt");
+	$log = new Logger("./logs/callback_logs.txt");
 	$db = new smsDB();
 
 	// Collect all reponse variables defining a default value
@@ -45,6 +45,6 @@
 	} else {
 		$log->insert('Error: Something went wrong with the response');		
 	}
-        // Log raw response for debug
+    // Log raw response for debug
 	$log->insert(json_encode($_POST));
 ?>
