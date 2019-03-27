@@ -90,5 +90,5 @@
     }
 
     // Testing
-     $response = callSmsApi ("254713194216", "sms messsage", NULL);
+    // $response = callSmsApi ("254713194216", "sms messsage", NULL);
 ?>
