@@ -6,6 +6,11 @@ This module integrates to the Africa Is Talking (AFT) API to send messages.
 
 ```
 aft
+├── logs // Log Files for debug
+|	├── sent_sms_logs.txt
+| 	├── callback_logs.txt 
+|	└── database_logs.txt
+|
 ├── vendor // Vendor Files
 ├── callback.php // AFT callback handler
 ├── sms.php // Main file with send SMS
@@ -18,6 +23,18 @@ aft
 - The sms.php file contains the callSmsApi function that accepts ($phone, $message, $orderId)
 - The callSmsApi function returns a JSON payload with the result of the operation
 - The function creates logs of sent SMSs to sent_sms_logs.txt
+- The getStatus function returns message details from the db.
+
+## Getting message status
+- Pass in `either one` of the following params:
+	```
+		$params = Array(
+			"orderId" => "orderxyz",
+			"sessionId" => "wxyz"
+		)
+	```
+- The function will query the database using the provided param and return a JSON payload of
+  the message details.
 
 ## AFT Callback
 
@@ -37,12 +54,32 @@ aft
 ## Database
 - The logger module uses SQLite to write SMS responses from AFT
 
+
 ## Setting Up
 
-1. Create a subdomain the `sms.gobeba.com`
-2. Host the files there
+1. Create a new bitnami app follow the official docs:
+   ```
+   https://docs.bitnami.com/aws/infrastructure/lamp/administration/create-custom-application-php/
+   ```
+
+2. Host the files there. In our case the app is called `sms`
+	```
+	You can use git to pull code from your repository into the server.
+	```
 3. On the AFT console, navigate to the appropriate app
 4. Go to SMS > SMS Callback URLs > Delivery Reports
-5. Set the callback url as `sms.gobeba.com/aft/callback.php`
+5. Set the callback url as `https://gobeba.com/sms/callback.php`
 
+
+Notes:
+
+```
+Ensure the owner of the **htdocs** folder of your app is set as **daemon**. This is because the system
+will need to be able to create app resources like the sqlite db and log files in order to function.
+
+Use the unix command:
+
+sudo chown daemon:daemon -R htdocs
+
+```
 

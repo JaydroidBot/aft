@@ -82,8 +82,10 @@
     }
 
     // Function to get message info
-    function getStatus($msgIsd) {
-        $response = $db->get($msgIsd);
+    // Pass in params as an ARRAY
+    // You can query by sessionId or orderId
+    function getStatus($params) {
+        $response = $db->get($params);
         return $response;
     }
 
