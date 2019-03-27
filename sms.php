@@ -10,6 +10,9 @@
      * @param String $message the sms message to be sent
      * @param String $orderId unique value for the request
      */
+    $log = new Logger("./logs/sent_sms_logs.txt");
+    $db = new smsDB();
+
     function callSmsApi($phone, $message, $orderId) {
 
         // Set your app credentials
@@ -18,8 +21,6 @@
 
         // Initialize classes
         $AT = new AfricasTalking($username, $apiKey);
-        $log = new Logger("./logs/sent_sms_logs.txt");
-        $db = new smsDB();
 
         // Get the SMS service
         $sms = $AT->sms();
