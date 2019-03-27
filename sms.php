@@ -65,7 +65,8 @@
 	            "status" => $recipient->status,
 	            "cost" => $recipient->cost,
 	            "sessionId" => $recipient->messageId,
-	            "statusCodeDescription" => $resultCodeMap[$recipient->statusCode]
+	            "statusCodeDescription" => $resultCodeMap[$recipient->statusCode],
+                "orderId" => $orderId
             );
 
             // Write to database

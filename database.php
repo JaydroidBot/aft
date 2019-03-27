@@ -53,7 +53,7 @@
 
    		try {
    			$query = $this->db->prepare($insert);
-        $sqlite->enableExceptions(true);
+        $this->db->enableExceptions(true);
    			$query->execute();
    		} catch (Exception $e) {
    			$error = array(
